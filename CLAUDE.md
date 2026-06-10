@@ -6,9 +6,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## IMPORTANT: Always consult /docs first
 
-**Before writing any code, always check the `/docs` directory for a relevant guide.** The `/docs` directory contains project-specific documentation that takes precedence over general knowledge. If a relevant doc exists, read it before proceeding — do not rely solely on training data or `node_modules` docs.
+**Before writing any code, always check the `/docs` directory for a relevant guide.** The `/docs` directory contains project-specific documentation that takes precedence over general knowledge. If a relevant doc exists, read it before proceeding — do not rely solely on training data or `node_modules` docs:
 
 - /docs/ui.md
+- /docs/data-fetching.md
 
 ## Commands
 

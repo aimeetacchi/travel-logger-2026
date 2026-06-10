@@ -18,6 +18,7 @@ export const places = pgTable("places", {
   id: uuid("id").defaultRandom().primaryKey(),
   userId: text("user_id").notNull(),
   country: text("country").notNull(),
+  city: text("city"),
   description: text("description"),
   visitedOn: date("visited_on").notNull(),
   favourite: boolean("favourite").notNull().default(false),

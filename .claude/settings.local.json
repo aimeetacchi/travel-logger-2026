@@ -17,7 +17,11 @@
       "Bash(npx shadcn@latest *)",
       "Bash(echo \"PID: $!\")",
       "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3000/dashboard)",
-      "Bash(kill 51368)"
+      "Bash(kill 51368)",
+      "Bash(npx tsc *)",
+      "mcp__neon__prepare_database_migration",
+      "mcp__neon__run_sql",
+      "mcp__neon__complete_database_migration"
     ]
   },
   "enabledMcpjsonServers": [
