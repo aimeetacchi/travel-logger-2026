@@ -17,9 +17,10 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
-import { createPlaceAction, type CreatePlaceInput } from "@/app/dashboard/place/new/actions";
+import { updatePlaceAction, type UpdatePlaceInput } from "@/app/dashboard/places/[placeId]/actions";
 
 const schema = z.object({
+  id: z.string().uuid(),
   country: z.string().min(1, "Country is required"),
   city: z.string().optional(),
   description: z.string().optional(),
@@ -27,24 +28,37 @@ const schema = z.object({
   favourite: z.boolean().optional(),
 });
 
-export function NewPlaceForm() {
+interface EditPlaceFormProps {
+  place: {
+    id: string;
+    country: string;
+    city: string | null;
+    description: string | null;
+    visitedOn: string;
+    favourite: boolean;
+  };
+}
+
+export function EditPlaceForm({ place }: EditPlaceFormProps) {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
 
-  const form = useForm<CreatePlaceInput>({
+  const form = useForm<UpdatePlaceInput>({
     resolver: zodResolver(schema),
     defaultValues: {
-      country: "",
-      city: "",
-      description: "",
-      visitedOn: "",
-      favourite: false,
+      id: place.id,
+      country: place.country,
+      city: place.city ?? "",
+      description: place.description ?? "",
+      visitedOn: place.visitedOn,
+      favourite: place.favourite,
     },
   });
 
-  function onSubmit(data: CreatePlaceInput) {
+  function onSubmit(data: UpdatePlaceInput) {
     startTransition(async () => {
-      await createPlaceAction(data);
+      await updatePlaceAction(data);
+      router.push("/dashboard");
     });
   }
 
@@ -125,7 +139,7 @@ export function NewPlaceForm() {
 
         <div className="flex gap-3">
           <Button type="submit" disabled={isPending}>
-            {isPending ? "Saving…" : "Log place"}
+            {isPending ? "Saving…" : "Save changes"}
           </Button>
           <Button
             type="button"
