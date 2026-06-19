@@ -1,14 +1,9 @@
 import Link from "next/link"
 import { Show, SignInButton, SignUpButton } from "@clerk/nextjs"
-import { auth } from "@clerk/nextjs/server"
-import { redirect } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { MapPinIcon } from "lucide-react"
 
-export default async function Home() {
-  const { userId } = await auth();
-  if (userId) redirect("/dashboard");
-
+export default function Home() {
   return (
     <main className="flex flex-1 flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-6 text-center">
       <div className="flex flex-col items-center gap-6 max-w-lg">
@@ -33,10 +28,10 @@ export default async function Home() {
             </Button>
           </Show>
           <Show when="signed-out">
-            <SignUpButton mode="modal" forceRedirectUrl="/dashboard">
+            <SignUpButton mode="modal">
               <Button size="lg">Get started</Button>
             </SignUpButton>
-            <SignInButton mode="modal" forceRedirectUrl="/dashboard">
+            <SignInButton mode="modal">
               <Button variant="outline" size="lg">Sign in</Button>
             </SignInButton>
           </Show>
