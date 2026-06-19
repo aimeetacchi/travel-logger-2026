@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import { format, isWithinInterval, parseISO, startOfDay, endOfDay } from "date-fns"
 import type { DateRange } from "react-day-picker"
+import { useRouter } from "next/navigation"
 import { Calendar } from "@/components/ui/calendar"
 import {
   Card,
@@ -12,13 +13,6 @@ import {
 } from "@/components/ui/card"
 import { MapPinIcon, PlusIcon } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
 import type { getUserPlaces } from "@/data/places"
 
 type Place = Awaited<ReturnType<typeof getUserPlaces>>[number]
@@ -31,6 +25,7 @@ const START_MONTH = new Date(2000, 0)
 const END_YEAR = new Date().getFullYear() + 2
 
 export function PlaceLog({ places }: PlaceLogProps) {
+  const router = useRouter()
   const [range, setRange] = useState<DateRange | undefined>(undefined)
   const [mounted, setMounted] = useState(false)
 
@@ -89,22 +84,10 @@ export function PlaceLog({ places }: PlaceLogProps) {
                 Record a country, city, and date you visited.
               </p>
             </div>
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button size="sm">
-                  <PlusIcon className="size-4 mr-1" />
-                  Add place
-                </Button>
-              </DialogTrigger>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>Add a new place</DialogTitle>
-                </DialogHeader>
-                <p className="text-sm text-muted-foreground">
-                  Form coming soon.
-                </p>
-              </DialogContent>
-            </Dialog>
+            <Button size="sm" onClick={() => router.push("/dashboard/place/new")}>
+              <PlusIcon className="size-4 mr-1" />
+              Add place
+            </Button>
           </CardHeader>
         </Card>
 
