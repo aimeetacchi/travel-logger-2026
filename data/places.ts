@@ -37,3 +37,34 @@ export async function getUserPlaces() {
 
   return db.select().from(places).where(eq(places.userId, userId));
 }
+
+export async function getPlaceById(id: string) {
+  const { userId } = await auth();
+  if (!userId) throw new Error("Unauthenticated");
+
+  const [place] = await db
+    .select()
+    .from(places)
+    .where(and(eq(places.id, id), eq(places.userId, userId)));
+  return place ?? null;
+}
+
+export type UpdatePlace = {
+  country: string;
+  city?: string;
+  description?: string;
+  visitedOn: string;
+  favourite?: boolean;
+};
+
+export async function updatePlace(id: string, input: UpdatePlace) {
+  const { userId } = await auth();
+  if (!userId) throw new Error("Unauthenticated");
+
+  const [place] = await db
+    .update(places)
+    .set(input)
+    .where(and(eq(places.id, id), eq(places.userId, userId)))
+    .returning();
+  return place;
+}
